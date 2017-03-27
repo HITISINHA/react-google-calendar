@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import moment from 'moment';
 
 import BigCalendar from 'react-big-calendar';
@@ -12,29 +12,32 @@ import './App.css';
 import { getEvents, calendarUrls } from '../../events';
 
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      filters: [],
+      filters: calendarUrls.map(cal => cal.category),
       events: []
     }
 
-    this.isFiltered = (ev) => {
-      return this.state.filters.includes(ev.category);
-    }
+    this.isFiltered = (ev) => this.state.filters.includes(ev.category);
+    this.onCheckboxChange = this.onCheckboxChange.bind(this);
   }
 
   onCheckboxChange(e) {
     const filters = this.state.filters;
     let index;
 
-    if (e.target.checked) {
-      filters.push(e.target.value);
-    } else {
-      index = filters.indexOf(e.target.value);
-      filters.splice(index, 1);
+    if (e) {
+      if (e.target.checked) {
+        filters.push(e.target.value);
+      } else {
+        index = filters.indexOf(e.target.value);
+        if (index !== -1){
+          filters.splice(index, 1);
+        }
+      }
     }
 
     this.setState({filters: filters});
@@ -43,32 +46,34 @@ class App extends React.Component {
       let filteredEvents = events.filter(this.isFiltered);
       this.setState({events: filteredEvents});
     });
-
-    console.log(filters);
   }
 
   componentDidMount() {
     this.onCheckboxChange();
   }
 
-  render() {
-    const checkboxes = calendarUrls.map(cal =>
-        <div className={`checkboxGroup checkboxGroup_${cal.category}`} key={cal.url}>
-          <input id={cal.category} type="checkbox" value={cal.category} onChange={this.onCheckboxChange.bind(this)} />
+  eventColor(event, start, end, isSelected) {
+    return { className: `rbc-event_${event.category}` }
+  }
+
+  get checkboxes(){
+    return calendarUrls.map(cal => {
+        const checked = this.isFiltered(cal);
+        return (<div className={`checkboxGroup checkboxGroup_${cal.category}`} key={cal.url}>
+          <input id={cal.category} type="checkbox" value={cal.category} onChange={this.onCheckboxChange} checked={checked} />
           <label htmlFor={cal.category}>
             {cal.category}
           </label>
-        </div>
+        </div>);
+      }
     );
+  }
 
-    function eventColor(event, start, end, isSelected) {
-      return { className: `rbc-event_${event.category}` }
-    };
-
+  render() {
     return (
       <div>
         <form className="checkboxForm">
-          {checkboxes}
+          {this.checkboxes}
         </form>
 
         <div className="calendar">
@@ -76,7 +81,7 @@ class App extends React.Component {
             popup
             selectable
             events={this.state.events}
-            eventPropGetter={eventColor}
+            eventPropGetter={this.eventColor}
             onSelectEvent={event => console.log(event.title)}
             views={['month', 'week', 'day']}
           />
