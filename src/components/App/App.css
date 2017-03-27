@@ -1,5 +1,87 @@
 .calendar {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.checkboxForm {
+  position: fixed;
+  top: 15%;
+  left: 0;
+  padding: 15px;
+  background-color: #f0f0f0;
+  z-index: 9999;
+}
+
+.checkboxGroup {
+  position: relative;
+  overflow: hidden;
+}
+
+.checkboxGroup label {
+  display: block;
+  padding: 8px;
+  margin: 2px 0;
+  background-color: #cccccc;
+}
+
+.checkboxGroup input {
+  position: absolute;
+  left: -80px;
+}
+
+.checkboxGroup_adult input:checked + label,
+.rbc-event_adult {
+  color: #ffffff;
+  background-color: #00263A;
+}
+
+.checkboxGroup_attraction input:checked + label,
+.rbc-event_attraction {
+  color: #ffffff;
+  background-color: #009CBD;
+}
+
+.checkboxGroup_civic input:checked + label,
+.rbc-event_civic {
+  color: #ffffff;
+  background-color: #78AA00;
+}
+
+.checkboxGroup_education input:checked + label,
+.rbc-event_education {
+  color: #333333;
+  background-color: #FFCD00;
+}
+
+.checkboxGroup_general input:checked + label,
+.rbc-event_general {
+  color: #ffffff;
+  background-color: #BE3A34;
+}
+
+.checkboxGroup_networking input:checked + label,
+.rbc-event_networking {
+  color: #ffffff;
+  background-color: #005670;
+}
+
+.checkboxGroup_nonprofit input:checked + label,
+.rbc-event_nonprofit {
+  color: #333333;
+  background-color: #F5E1A4;
+}
+
+.checkboxGroup_outdoors input:checked + label,
+.rbc-event_outdoors {
+  color: #ffffff;
+  background-color: #00263A;
+}
+
+.checkboxGroup_youth input:checked + label,
+.rbc-event_youth {
+  color: #ffffff;
+  background-color: #00263A;
 }
