@@ -94,7 +94,6 @@ const calendarPromises = calendarUrls.map(fetchCalendar);
 const getEvents = (callback) => {
 	Promise.all(calendarPromises)
 	  .then(function(results) {
-			 console.log(calendar);
 			 callback(calendar);
 	  })
 	  .catch(function(err) {

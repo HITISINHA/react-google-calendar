@@ -15,8 +15,14 @@ class App extends Component {
   constructor() {
     super();
 
+    this.storedFilters = window.localStorage.getItem('filters');
+
+    if (this.storedFilters) {
+      this.parsedFilters = JSON.parse(this.storedFilters);
+    }
+
     this.state = {
-      filters: window.localStorage.getItem('filters') || calendarUrls.map(cal => cal.category),
+      filters: this.parsedFilters || calendarUrls.map(cal => cal.category),
       events: []
     }
 
@@ -39,7 +45,7 @@ class App extends Component {
       }
     }
 
-    window.localStorage.setItem('filters', filters);
+    window.localStorage.setItem('filters', JSON.stringify(filters));
     this.setState({filters: filters});
 
     getEvents((events) => {
