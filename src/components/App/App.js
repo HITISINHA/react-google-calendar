@@ -11,13 +11,12 @@ import './App.css';
 
 import { getEvents, calendarUrls } from '../../events';
 
-
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      filters: calendarUrls.map(cal => cal.category),
+      filters: window.localStorage.getItem('filters') || calendarUrls.map(cal => cal.category),
       events: []
     }
 
@@ -40,6 +39,7 @@ class App extends Component {
       }
     }
 
+    window.localStorage.setItem('filters', filters);
     this.setState({filters: filters});
 
     getEvents((events) => {
